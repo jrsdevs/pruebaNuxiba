@@ -1,0 +1,131 @@
+USUARIO CON MAS TIEMPO LOGUEADO
+SELECT TOP 1 C3.User_Id, C3.dias  as dias
+FROM (
+	SELECT DISTINCT (C2.User_id)
+		,SUM(C2.dias) AS dias
+		,SUM(C2.horas) AS horas
+	FROM (
+		SELECT DISTINCT *
+			,DATEDIFF(DAY, C1.fechaup, C1.fechadown) AS dias
+			,DATEDIFF(HOUR, C1.fechaup, C1.fechadown) % 24 AS horas
+		FROM (
+			SELECT l.User_Id
+				,u.idUp
+				,d.idDown
+				,u.uidup
+				,u.fechaup
+				,d.fechadown
+			FROM ccloglogin AS l
+			LEFT JOIN (
+				SELECT RANK() OVER (
+						PARTITION BY User_Id ORDER BY ccloglogin.fecha ASC
+						) AS idUp
+					,User_id AS uidup
+					,fecha AS fechaup
+				FROM ccloglogin
+				WHERE tipoMov = 1
+				) AS u ON l.User_Id = u.uidup
+			LEFT JOIN (
+				SELECT RANK() OVER (
+						PARTITION BY User_Id ORDER BY fecha ASC
+						) AS idDown
+					,User_id AS uiddown
+					,fecha AS fechadown
+				FROM ccloglogin
+				WHERE tipoMov = 0
+				) AS d ON u.uidup = d.uiddown
+				AND u.idUp = d.idDown
+			) AS C1
+		) AS C2
+	GROUP BY C2.User_Id
+	) AS C3
+WHERE C3.horas IS NOT NULL
+Order by C3.dias DESC;
+
+
+
+
+USUARIO CON MENOS TIEMPO LOGUEADO
+SELECT TOP 1 C3.User_Id, C3.dias  as dias
+FROM (
+	SELECT DISTINCT (C2.User_id)
+		,SUM(C2.dias) AS dias
+		,SUM(C2.horas) AS horas
+	FROM (
+		SELECT DISTINCT *
+			,DATEDIFF(DAY, C1.fechaup, C1.fechadown) AS dias
+			,DATEDIFF(HOUR, C1.fechaup, C1.fechadown) % 24 AS horas
+		FROM (
+			SELECT l.User_Id
+				,u.idUp
+				,d.idDown
+				,u.uidup
+				,u.fechaup
+				,d.fechadown
+			FROM ccloglogin AS l
+			LEFT JOIN (
+				SELECT RANK() OVER (
+						PARTITION BY User_Id ORDER BY ccloglogin.fecha ASC
+						) AS idUp
+					,User_id AS uidup
+					,fecha AS fechaup
+				FROM ccloglogin
+				WHERE tipoMov = 1
+				) AS u ON l.User_Id = u.uidup
+			LEFT JOIN (
+				SELECT RANK() OVER (
+						PARTITION BY User_Id ORDER BY fecha ASC
+						) AS idDown
+					,User_id AS uiddown
+					,fecha AS fechadown
+				FROM ccloglogin
+				WHERE tipoMov = 0
+				) AS d ON u.uidup = d.uiddown
+				AND u.idUp = d.idDown
+			) AS C1
+		) AS C2
+	GROUP BY C2.User_Id
+	) AS C3
+WHERE C3.horas IS NOT NULL
+Order by C3.dias ASC;
+
+
+
+PROMEDIO 
+SELECT DISTINCT (C2.User_id)
+		,SUM(C2.dias) / COUNT(C2.idUp) AS diasProm
+		,SUM(C2.horas) / COUNT(c2.idUp) AS horasProm
+	FROM (
+		SELECT DISTINCT *
+			,DATEDIFF(DAY, C1.fechaup, C1.fechadown) AS dias
+			,DATEDIFF(HOUR, C1.fechaup, C1.fechadown) % 24 AS horas
+		FROM (
+			SELECT l.User_Id
+				,u.idUp
+				,d.idDown
+				,u.uidup
+				,u.fechaup
+				,d.fechadown
+			FROM ccloglogin AS l
+			LEFT JOIN (
+				SELECT RANK() OVER (
+						PARTITION BY User_Id ORDER BY ccloglogin.fecha ASC
+						) AS idUp
+					,User_id AS uidup
+					,fecha AS fechaup
+				FROM ccloglogin
+				WHERE tipoMov = 1
+				) AS u ON l.User_Id = u.uidup
+			LEFT JOIN (
+				SELECT RANK() OVER (
+						PARTITION BY User_Id ORDER BY fecha ASC
+						) AS idDown
+					,User_id AS uiddown
+					,fecha AS fechadown
+				FROM ccloglogin
+				WHERE tipoMov = 0
+				) AS d ON u.uidup = d.uiddown
+				AND u.idUp = d.idDown
+			) AS C1
+		) AS C2
+	GROUP BY C2.User_Id;

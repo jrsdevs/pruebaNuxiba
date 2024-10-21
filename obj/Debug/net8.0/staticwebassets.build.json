@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "Eb7edBVmwcw5+8OWzhJ3s+b8+7e8GmFDuEMvsdfTJ6w=",
+  "Source": "nuxibaService",
+  "BasePath": "_content/nuxibaService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
