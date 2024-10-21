@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("nuxibaService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+92021b7336ef3e388d8045e6d5c5785eccb670fa")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+298046730e7df7ab76d4a2e432cbd0b56680ef32")]
 [assembly: System.Reflection.AssemblyProductAttribute("nuxibaService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("nuxibaService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
